@@ -12,6 +12,10 @@
 #    return 0;
 #}
 
+# mapa de fds
+# $t0 = cnt
+# #t1 = c
+
         .equ getChar, 2
         .equ putChar, 3
         .equ printInt, 6
