@@ -90,9 +90,9 @@ while:
         li $v0, printStr                # printInt(msg6)
         syscall
 
-        li $t1, 10                      # temp = 10
-        ori $t1, $t1, 5                 # temp = 10 | 5
-        sll $t1, $t1, 16                # temp = 10 | 5 << 16
+        li $t1, 5                       # temp = 5
+        sll $t1, $t1, 16                # temp = 5 << 16
+        ori $t1, $t1, 10                # temp = 10 | (5 << 16)
 
         move $a0, $t0
         move $a1, $t1
