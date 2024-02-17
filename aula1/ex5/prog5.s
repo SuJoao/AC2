@@ -50,7 +50,7 @@
         .globl main
 
 main:
-        addiu $sp, $sp, -4
+        addiu $sp, $sp, -4      # guardar batatas
         sw $ra, 0($sp)
 
 
@@ -84,19 +84,19 @@ do:
         li $v0, printInt        # printInt(cnt, temp)
         syscall
 
-        li $a0, 5
-        jal wait
+        li $a0, 5               
+        jal wait                # wait(5)
 
         li $v0, inkey           # inkey()
         syscall
         move $s2, $v0           # c = inkey()
 
 
-if:     bne $s2, 's', endif
+if:     bne $s2, 's', endif     # if(c == s)
         
-        li $v0, getChar
-        syscall
-        move $s2, $v0
+        li $v0, getChar         # getChar         
+        syscall 
+        move $s2, $v0           # c = gerChar
 endif:
 
 if2:    bne $s2, '+', endif2    # if(c == '+')
@@ -107,8 +107,8 @@ if3:    bne $s2, '-', endif3    # if(c == '-')
         li $s0, DOWN            # state = DOWN
 endif3:
 
-if4:    bne $s2, 'r', endif4
-        li $s1, 0
+if4:    bne $s2, 'r', endif4    # if(c ==  'r')
+        li $s1, 0               # cnt = 0
 endif4:
 
 
@@ -128,8 +128,8 @@ endif5:
 while:  bne  $s2, 'q', do       # while(c != 'q')
 
 
-        lw $ra, 0($sp)
-        addiu $sp, $sp, 4
+        lw $ra, 0($sp)  
+        addiu $sp, $sp, 4       # devolver batatas
 
         li $v0, 0               # return 0
 
