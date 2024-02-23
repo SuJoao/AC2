@@ -40,7 +40,7 @@ while:
         syscall
 
         li $a0, '\t'
-        li $v0, PUT_CHAR            # printChar('\t')
+        li $v0, PUT_CHAR            # putChar('\t')
         syscall
 
         move $a0, $s1
@@ -49,7 +49,7 @@ while:
         syscall
 
         li $a0, '\t'
-        li $v0, PUT_CHAR            # printChar('\t')
+        li $v0, PUT_CHAR            # putChar('\t')
         syscall
 
         move $a0, $s2
@@ -111,8 +111,4 @@ while2:
 endWhile2:
 
         jr $ra
-
-
-
-
-
+        

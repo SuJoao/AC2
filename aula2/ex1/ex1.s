@@ -36,10 +36,10 @@ main:
 
 while:  
 
-        li $t1, 0x0004000A               # temp = 10 | 4 << 16 
-        #li $t1, 4                       # temp = 4
-        #sll $t1, $t1, 16                # temp = 4 << 16
-        #ori $t1, $t1, 10                # temp = 10 | 4 << 16 
+        li $t1, 0x0004000A              # temp = 10 | 4 << 16 
+        #li $t1, 4                      # temp = 4
+        #sll $t1, $t1, 16               # temp = 4 << 16
+        #ori $t1, $t1, 10               # temp = 10 | 4 << 16 
 
         
         move $a0, $t0
@@ -58,7 +58,7 @@ while2:
         li $v0, READ_CORE_TIMER         # $v0 = readCoreTimer()
         syscall
 
-        bge $v0, 200000000, endWhile2      # while(readCoreTimer() < 200000)
+        bge $v0, 200000000, endWhile2   # while(readCoreTimer() < 200000)
 
         j while2
 
@@ -75,6 +75,3 @@ endWhile2:
 # 10 hz = 2 000 000
 # 5 hz = 4 000 000
 # 1 hz = 20 000 000
-
-
-

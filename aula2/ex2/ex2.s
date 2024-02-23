@@ -35,10 +35,10 @@ main:
 
 while:  
 
-        li $t1, 0x0004000A               # temp = 10 | 4 << 16 
-        #li $t1, 4                       # temp = 4
-        #sll $t1, $t1, 16                # temp = 4 << 16
-        #ori $t1, $t1, 10                # temp = 10 | 4 << 16 
+        li $t1, 0x0004000A              # temp = 10 | 4 << 16 
+        #li $t1, 4                      # temp = 4
+        #sll $t1, $t1, 16               # temp = 4 << 16
+        #ori $t1, $t1, 10               # temp = 10 | 4 << 16 
 
 
         move $a0, $s0
@@ -50,8 +50,8 @@ while:
         li $v0, PUT_CHAR
         syscall
 
-        li $a0, 1000                    # 1ms
-        jal delay                       # delay(1)
+        li $a0, 1000                    # 1s
+        jal delay                       # delay(1000)
 
         addi $s0, $s0, 1                # counter++
 
