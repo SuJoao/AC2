@@ -1,10 +1,10 @@
-# PARTE 2       Ex 4)
+# PARTE 2       Ex 7)
 
-# Contador em anel de 4 bits (ring counter), RB1=1, deslocamento à esquerda (3hz)
+# Contador Johnson de 4 bits com deslocamento à esquerda ou à direita, 1.5hz
 
-        .equ ADDR_BASE_HI,0xBF88
+        .equ ADDR_BASE_HI,0xBF88        
 
-        .equ TIME, 6666666              # 3hz 
+        .equ TIME, 12666666             # 1.5hz [10M ; 20M] -> [2hz ; 1hz]
 
         .equ TRISB,0x6040               # TRISB address: 0xBF886040
         .equ PORTB,0x6050               # PORTB address: 0xBF886050
@@ -52,25 +52,27 @@ wait:   li $v0, READ_CORE_TIMER         # $v0 = READ_CORE_TIMER()
 
 
         lw $t1, PORTB($t0)              # read portB
-        andi $t1, $t1, 0x0002           # Reset all bits except bit 1    (0000 0000 0000 0010)
+        andi $t1, $t1, 0x0004           # Reset all bits except bit 2    (0000 0000 0000 0010)
     
-if:     bne $t1, 2, else                # if(RB1 == 2)
+if:     bne $t1, 4, else                # if(RB2 == 4)
         
-        sll $t2, $t2, 1                 # count = count << 1
+        srl $t3, $t2, 3                 # temp = counter >> 3 (bit 3 -> bit 0)
+        xori $t3, $t3, 0x0001           # negate bit 0
+        andi $t3, $t3, 0x0001           # Reset all bits except bit 0
 
-if2:    bne $t2, 16, endif              # if(count == 16)  
-        ori $t2, $t2, 0x0001            # reset to 0001
+        sll $t2, $t2, 1                 # count = count << 1
 
         j endif
 
 else:
-        srl $t2, $t2, 1                 # count = count >> 1
+        sll $t3, $t2, 3                 # temp = counter << 3 (bit 0 -> bit 3)
+        xori $t3, $t3, 0x0008           # negate bit 3
+        andi $t3, $t3, 0x0008           # Reset all bits except bit 3
 
-if3:    bne $t2, 0, endif               # if(count == 0)
-        ori $t2, $t2, 0x0008            # rest to 1000
-
+        srl $t2, $t2, 1                 # count = count << 1
 endif:
-
+        
+        or $t2, $t2, $t3                # merge count and temp
         andi $t2,$t2,0x000F             # up counter MOD 16
 
         j while

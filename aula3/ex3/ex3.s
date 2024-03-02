@@ -1,4 +1,3 @@
-
 # PARTE 2       Ex 1) Ex 2)
 
 # a) Contador binário crescente de 4 bits (módulo 16), frequência de 1Hz
@@ -31,10 +30,6 @@ main:
         andi $t1, $t1, 0xFFE1           # bit1 bit2 bit3 bit4 = 0 (output)
         sw $t1, TRISE($t0)              # write
 
-        lw $t1, TRISB($t0)              # read trisB
-        ori $t1, $t1, 0x0002            # bit1 = 1 (input)
-        sw $t1, TRISB($t0)              # write
-
         li $t2, 0                       # counter = 0
 
 while:
@@ -55,10 +50,9 @@ wait:   li $v0, READ_CORE_TIMER         # $v0 = READ_CORE_TIMER()
         addi $t2,$t2,-1                 # count--
         andi $t2,$t2,0x000F             # up counter MOD 16
 
+        j while
 
-    j while
-
-    jr $ra
+        jr $ra
 
 
 

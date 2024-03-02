@@ -1,4 +1,3 @@
-
 # PARTE 2       Ex 3)
 
 # Contador binário módulo 16 crescente/decrescente (sw RB3)

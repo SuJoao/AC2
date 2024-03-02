@@ -1,10 +1,10 @@
-# PARTE 2       Ex 4)
+# PARTE 2       Ex 5)
 
-# Contador em anel de 4 bits (ring counter), RB1=1, deslocamento à esquerda (3hz)
+# Contador Johnson de 4 bits, 1.5 Hz; 
 
-        .equ ADDR_BASE_HI,0xBF88
+        .equ ADDR_BASE_HI,0xBF88        
 
-        .equ TIME, 6666666              # 3hz 
+        .equ TIME, 12666666             # 1.5hz [10M ; 20M] -> [2hz ; 1hz]
 
         .equ TRISB,0x6040               # TRISB address: 0xBF886040
         .equ PORTB,0x6050               # PORTB address: 0xBF886050
@@ -29,11 +29,7 @@ main:
         andi $t1, $t1, 0xFFE1           # bit1 bit2 bit3 bit4 = 0 (output)
         sw $t1, TRISE($t0)              # write
 
-        lw $t1, TRISB($t0)              # read trisB
-        ori $t1, $t1, 0x0002            # bit1 = 1 (input)
-        sw $t1, TRISB($t0)              # write
-
-        li $t2, 1                       # counter = 1
+        li $t2, 0                       # counter = 1
 
 while:
         lw $t1, LATE($t0)               # read latE
@@ -48,28 +44,16 @@ while:
 wait:   li $v0, READ_CORE_TIMER         # $v0 = READ_CORE_TIMER()
         syscall
 
-        blt $v0,TIME, wait              # while(READ_CORE_TIMER() < time)   3hz
+        blt $v0,TIME, wait              # while(READ_CORE_TIMER() < time)   1.5hz
 
 
-        lw $t1, PORTB($t0)              # read portB
-        andi $t1, $t1, 0x0002           # Reset all bits except bit 1    (0000 0000 0000 0010)
-    
-if:     bne $t1, 2, else                # if(RB1 == 2)
-        
+        srl $t3, $t2, 3                 # temp = counter >> 3 (bit 3 -> bit 0)
+        xori $t3, $t3, 0x0001           # negate bit 0
+        andi $t3, $t3, 0x0001           # Reset all bits except bit 0
+
         sll $t2, $t2, 1                 # count = count << 1
 
-if2:    bne $t2, 16, endif              # if(count == 16)  
-        ori $t2, $t2, 0x0001            # reset to 0001
-
-        j endif
-
-else:
-        srl $t2, $t2, 1                 # count = count >> 1
-
-if3:    bne $t2, 0, endif               # if(count == 0)
-        ori $t2, $t2, 0x0008            # rest to 1000
-
-endif:
+        or $t2, $t2, $t3                # merge count and temp
 
         andi $t2,$t2,0x000F             # up counter MOD 16
 
