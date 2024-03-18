@@ -19,7 +19,7 @@ int main(void) {
 
     unsigned int counter = 0;
     unsigned int time = 20;                                          
-    unsigned int active = 0;
+    unsigned int active = 500;
 
     while (1) {
 
@@ -34,8 +34,8 @@ int main(void) {
             LATE = (LATE & 0xFF00) | (bcd & 0x00FF);
 
             if(active != 0){
-                active--;
                 LATC = LATC | 0x4000;
+                active--;
             }else{
                 LATC = LATC & 0xBFFF;
             }
@@ -52,14 +52,14 @@ int main(void) {
             //counter = counter < 59 ? counter + 1 : 0;
             counter = (counter + 1) % 60;
 
-            if(counter == 59) active = 25;
+            if(counter == 59) active = 500;
 
         } else {
             time = 50;
             //counter = counter > 0 ? counter - 1 : 59;
             counter = (counter + 59) % 60;
 
-            if(counter == 0) active = 10; 
+            if(counter == 0) active = 500; 
         }
 
         
