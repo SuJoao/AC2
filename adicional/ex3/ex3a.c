@@ -9,6 +9,11 @@ int main(){
     TRISEbits.TRISE2 = 0;
     TRISEbits.TRISE3 = 0;
 
+    LATEbits.LATE0 = 0;
+    LATEbits.LATE1 = 0;
+    LATEbits.LATE2 = 0;
+    LATEbits.LATE3 = 0;
+
     char key;
 
     while(1){

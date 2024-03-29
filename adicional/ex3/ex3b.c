@@ -6,6 +6,8 @@ int main(){
 
     TRISE = TRISE & 0xFFF0;
 
+    LATE = LATE & 0xFFF0;
+
     char key;
 
     while(1){

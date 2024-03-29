@@ -23,6 +23,10 @@ main:
         andi $t1, $t1, 0xFFF0                   # config RE0-3 as output
         sw $t1, TRISE($t0)
 
+        lw $t1, LATE($t0)
+        andi $t1, $t1, 0xFFF0                   # turn off all LEDs
+        sw $t1, LATE($t0)
+
 while:
 
         li $v0, getchar                         # key = getChar()
