@@ -38,17 +38,7 @@ int main(){
 
         IFS1bits.AD1IF = 0;
 
-        if(value < 205){
-            freq = 1;
-        }else if(value < 410){
-            freq = 2;
-        }else if(value < 615){
-            freq = 3;
-        }else if(value < 820){
-            freq = 4;
-        }else{
-            freq = 5;
-        }
+        freq = ((value*4)/1023) + 1; 
 
         resetCoreTimer();
         while(readCoreTimer() < 20000000/freq);
